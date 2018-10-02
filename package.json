@@ -1,0 +1,26 @@
+{
+  "name": "manager-github-bot",
+  "version": "0.0.1-beta",
+  "description": "The official Manager GitHub Bot for the Manager Bot on Discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiscordManager/github-bot.git"
+  },
+  "keywords": [
+    "github",
+    "bot",
+    "githubbot",
+    "manager",
+    "managerbot"
+  ],
+  "author": "KolkiesDev & Nioxed",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/DiscordManager/github-bot/issues"
+  },
+  "homepage": "https://github.com/DiscordManager/github-bot#readme"
+}
