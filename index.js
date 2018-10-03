@@ -1,21 +1,38 @@
 require("dotenv").config();
 
+const getPullRequest = require("./lib/getPullRequest");
+const getPackageJsonVersion = require("./lib/getPackageJsonVersion");
+const createCommit = require("./lib/createCommit");
+const createComment = require("./lib/createComment");
+const addLabeltoPr = require("./lib/addLabeltoPr");
+const bumpVersion = require("./lib/bumpVersion");
+
 const app = require("express")();
-const getPullRequest = require("./lib/getPullRequest")
 
-const createCommentonPullrequest = async () => {
-    let languagePR;
-    const pr = await getPullRequest(1);
-    if(pr.title.toLowerCase().includes("language")) languagePR = true
-    require("./lib/createComment")(1, `Thanks for creating this pull request, **${pr.user.login}**! \nThank for the language pull request!\nI will add a language label and one of our staff will check this pull request!"`);
-    require("./lib/addLabeltoPr")(1)
-};
-createCommentonPullrequest();
+const bodyParser = require("body-parser");
 
-/* app.post("/pulladded", async (req, res) => {
-    const pr = await Client.pullRequests.get({owner: "DiscordManager", repo: "github-bot-testing", number: "1"});
-    console.log(pr);
-    res.end();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+ 
+// parse application/json
+app.use(bodyParser.json())
+
+app.post("/pullrequest", async (req, res) => {
+    const { body } = req;
+    console.log(body);
+    if(body.action == "closed" && body.merged == true) {
+
+        
+    }
+    if(body.action == "opened") {
+        await createComment(body.number, `Thanks for opening this Pull Request, **${body.pull_request.user.login}**!\nI will add the language label to this Pull Request and it will be reviewed as soon as possible!\nYou can also join [our Discord Server](https://discord.gg/Japq4P) and you can get the Translator role!`)
+        await addLabeltoPr(body.number);
+        return res.status(200).end();
+    }
+    return res.status(200).end();
 });
-
-app.listen(8000); */
+app.get("/", (req, res) => {
+    res.send("Hi!");
+});
+app.listen(8000);
+console.log("Listening on port 8000");
