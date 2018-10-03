@@ -1,9 +1,14 @@
 require("dotenv").config();
 
 const app = require("express")();
+const getPullRequest = require("./lib/getPullRequest")
 
 const createCommentonPullrequest = async () => {
-    require("./lib/createComment")(1, "hi");
+    let languagePR;
+    const pr = await getPullRequest(1);
+    if(pr.title.toLowerCase().includes("language")) languagePR = true
+    require("./lib/createComment")(1, `Thanks for creating this pull request, **${pr.user.login}**! \nThank for the language pull request!\nI will add a language label and one of our staff will check this pull request!"`);
+    require("./lib/addLabeltoPr")(1)
 };
 createCommentonPullrequest();
 
