@@ -9,6 +9,7 @@ const bumpVersion = require("./lib/bumpVersion");
 const { base64encode     } = require('nodejs-base64');
 
 const app = require("express")();
+const getPullRequest = require("./lib/getPullRequest")
 
 const bodyParser = require("body-parser");
 
