@@ -15,7 +15,6 @@ const bodyParser = require("body-parser");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
- 
 // parse application/json
 app.use(bodyParser.json())
 
@@ -23,6 +22,7 @@ app.post("/pullrequest", async (req, res) => {
     let { body } = req;
     if(body.payload) body = JSON.parse(body.payload);
     if(body.action == "closed" && body.pull_request.merged == true) {
+        await createComment(body.number, `Your pull request is merged, it can take 1 whole day before the langauge is updated in the bot!`)
         const data = await getPackageJsonVersion();
         const bumpedversion = bumpVersion(data.version);
         let content = { version: bumpedversion };
